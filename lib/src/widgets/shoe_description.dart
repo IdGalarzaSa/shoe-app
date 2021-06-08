@@ -9,7 +9,7 @@ class ShoeDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -18,10 +18,11 @@ class ShoeDescription extends StatelessWidget {
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
             textAlign: TextAlign.left,
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text("${this.description}"),
+          SizedBox(height: 20),
+          Text("${this.description}",
+              style:
+                  TextStyle(color: Colors.black54, height: 1.8, fontSize: 16),
+              textAlign: TextAlign.justify),
         ],
       ),
     );
