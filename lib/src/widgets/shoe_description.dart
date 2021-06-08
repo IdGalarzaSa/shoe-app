@@ -19,10 +19,11 @@ class ShoeDescription extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           SizedBox(height: 20),
-          Text("${this.description}",
-              style:
-                  TextStyle(color: Colors.black54, height: 1.8, fontSize: 16),
-              textAlign: TextAlign.justify),
+          Text(
+            "${this.description}",
+            style: TextStyle(color: Colors.black54, height: 1.8, fontSize: 16),
+            textAlign: TextAlign.justify,
+          ),
         ],
       ),
     );
