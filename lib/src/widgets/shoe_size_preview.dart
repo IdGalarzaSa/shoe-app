@@ -7,16 +7,13 @@ class ShoeSizePreview extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Container(
         width: double.infinity,
-        height: 430,
+        height: 450,
         decoration: BoxDecoration(
           color: Color(0xffFFCF53),
           borderRadius: BorderRadius.circular(50),
         ),
         child: Column(
-          children: [
-            _ShoeWithShadow()
-            //
-          ],
+          children: [_ShoeWithShadow(), _ShoesSize()],
         ),
       ),
     );
@@ -53,6 +50,63 @@ class _Shadow extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           boxShadow: [BoxShadow(color: Color(0xffEAA14E), blurRadius: 40)],
+        ),
+      ),
+    );
+  }
+}
+
+class _ShoesSize extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _ShoeSizeBox(shoeSize: 7, isSelected: false),
+          _ShoeSizeBox(shoeSize: 7.5, isSelected: false),
+          _ShoeSizeBox(shoeSize: 8, isSelected: false),
+          _ShoeSizeBox(shoeSize: 8.5, isSelected: false),
+          _ShoeSizeBox(shoeSize: 9, isSelected: true),
+          _ShoeSizeBox(shoeSize: 9.5, isSelected: false),
+        ],
+      ),
+    );
+  }
+}
+
+class _ShoeSizeBox extends StatelessWidget {
+  final double shoeSize;
+  final bool isSelected;
+
+  _ShoeSizeBox({required this.shoeSize, required this.isSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: isSelected ? Color(0xffF1A23A) : Colors.white,
+        boxShadow: isSelected
+            ? [
+                BoxShadow(
+                  color: Color(0xffF1A23A),
+                  blurRadius: 10,
+                  offset: Offset(0, 10),
+                )
+              ]
+            : [BoxShadow(color: Colors.transparent)],
+      ),
+      child: Center(
+        child: Text(
+          '${this.shoeSize.toString().replaceAll(".0", "")}',
+          style: TextStyle(
+            color: isSelected ? Colors.white : Color(0xffF1A23A),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
