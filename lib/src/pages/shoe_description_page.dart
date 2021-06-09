@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shoes_app/src/widgets/custom_widgets.dart';
 
@@ -9,11 +10,16 @@ class ShoeDescriptionPage extends StatelessWidget {
         children: [
           Stack(
             children: [
-              ShoeSizePreview(fullScreen: true),
+              Hero(
+                tag: "shoe",
+                child: Material(child: ShoeSizePreview(fullScreen: true)),
+              ),
               Positioned(
                 top: 40,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   icon: Icon(
                     Icons.chevron_left,
                     size: 50,
@@ -26,6 +32,7 @@ class ShoeDescriptionPage extends StatelessWidget {
           SizedBox(height: 20),
           Expanded(
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
                   ShoeDescription(
@@ -43,9 +50,6 @@ class ShoeDescriptionPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            height: 30,
-          )
         ],
       ),
     );
@@ -55,22 +59,25 @@ class ShoeDescriptionPage extends StatelessWidget {
 class _Options extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _OptionButton(
-          iconData: Icons.favorite,
-          isSelected: true,
-        ),
-        _OptionButton(
-          iconData: Icons.add_shopping_cart,
-          isSelected: false,
-        ),
-        _OptionButton(
-          iconData: Icons.settings,
-          isSelected: false,
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _OptionButton(
+            iconData: Icons.favorite,
+            isSelected: true,
+          ),
+          _OptionButton(
+            iconData: Icons.add_shopping_cart,
+            isSelected: false,
+          ),
+          _OptionButton(
+            iconData: Icons.settings,
+            isSelected: false,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -84,6 +91,7 @@ class _OptionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: null,
       onPressed: () {},
       backgroundColor: Colors.white,
       elevation: 10,
@@ -105,13 +113,16 @@ class _ColorsAndMore extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
-                    child: _RoundedColor(color: Color(0xffC6D642)), left: 75),
+                    child: _RoundedColor(color: Color(0xffC6D642), index: 4),
+                    left: 75),
                 Positioned(
-                    child: _RoundedColor(color: Color(0xffFFAD29)), left: 50),
+                    child: _RoundedColor(color: Color(0xffFFAD29), index: 3),
+                    left: 50),
                 Positioned(
-                    child: _RoundedColor(color: Color(0xff2099f1)), left: 25),
+                    child: _RoundedColor(color: Color(0xff2099f1), index: 2),
+                    left: 25),
                 Positioned(
-                  child: _RoundedColor(color: Color(0xff364D56)),
+                  child: _RoundedColor(color: Color(0xff364D56), index: 1),
                 ),
               ],
             ),
@@ -121,7 +132,7 @@ class _ColorsAndMore extends StatelessWidget {
             child: CustomOrangeButton(
               buttonText: "More releated items",
               buttonHeight: 25,
-              buttonWidth: 180,
+              buttonWidth: 160,
             ),
           )
         ],
@@ -132,17 +143,22 @@ class _ColorsAndMore extends StatelessWidget {
 
 class _RoundedColor extends StatelessWidget {
   final Color color;
+  final int index;
 
-  _RoundedColor({required this.color});
+  _RoundedColor({required this.color, required this.index});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      width: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-        color: color,
+    return FadeInLeft(
+      delay: Duration(milliseconds: index * 100),
+      duration: Duration(milliseconds: 300),
+      child: Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(40),
+          color: color,
+        ),
       ),
     );
   }
@@ -165,10 +181,13 @@ class _BuyNowSection extends StatelessWidget {
               "\$ $amount",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
-            CustomOrangeButton(
-              buttonText: "Buy now",
-              buttonHeight: 40,
-              buttonWidth: 120,
+            Bounce(
+              delay: Duration(milliseconds: 500),
+              child: CustomOrangeButton(
+                buttonText: "Buy now",
+                buttonHeight: 40,
+                buttonWidth: 120,
+              ),
             )
           ],
         ),

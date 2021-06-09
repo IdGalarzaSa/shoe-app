@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shoes_app/src/pages/shoe_description_page.dart';
 
 class ShoeSizePreview extends StatelessWidget {
   bool fullScreen;
@@ -7,29 +8,39 @@ class ShoeSizePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: fullScreen
-          ? EdgeInsets.symmetric(horizontal: 5, vertical: 0)
-          : EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      child: Container(
-        width: double.infinity,
-        height: fullScreen ? 420 : 450,
-        decoration: BoxDecoration(
-          color: Color(0xffFFCF53),
-          borderRadius: fullScreen
-              ? BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50),
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                )
-              : BorderRadius.circular(50),
-        ),
-        child: Column(
-          children: [
-            _ShoeWithShadow(),
-            fullScreen ? Container() : _ShoesSize(),
-          ],
+    return GestureDetector(
+      onTap: () {
+        if (!fullScreen) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ShoeDescriptionPage()));
+        }
+      },
+      child: Padding(
+        padding: fullScreen
+            ? EdgeInsets.symmetric(horizontal: 5, vertical: 0)
+            : EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+        child: Container(
+          width: double.infinity,
+          height: fullScreen ? 370 : 370,
+          decoration: BoxDecoration(
+            color: Color(0xffFFCF53),
+            borderRadius: fullScreen
+                ? BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50),
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  )
+                : BorderRadius.circular(50),
+          ),
+          child: Column(
+            children: [
+              _ShoeWithShadow(),
+              fullScreen ? Container() : _ShoesSize(),
+            ],
+          ),
         ),
       ),
     );
@@ -77,16 +88,25 @@ class _ShoesSize extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _ShoeSizeBox(shoeSize: 7, isSelected: false),
-          _ShoeSizeBox(shoeSize: 7.5, isSelected: false),
-          _ShoeSizeBox(shoeSize: 8, isSelected: false),
-          _ShoeSizeBox(shoeSize: 8.5, isSelected: false),
-          _ShoeSizeBox(shoeSize: 9, isSelected: true),
-          _ShoeSizeBox(shoeSize: 9.5, isSelected: false),
-        ],
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _ShoeSizeBox(shoeSize: 7, isSelected: false),
+            SizedBox(width: 8),
+            _ShoeSizeBox(shoeSize: 7.5, isSelected: false),
+            SizedBox(width: 8),
+            _ShoeSizeBox(shoeSize: 8, isSelected: false),
+            SizedBox(width: 8),
+            _ShoeSizeBox(shoeSize: 8.5, isSelected: false),
+            SizedBox(width: 8),
+            _ShoeSizeBox(shoeSize: 9, isSelected: true),
+            SizedBox(width: 8),
+            _ShoeSizeBox(shoeSize: 9.5, isSelected: false),
+          ],
+        ),
       ),
     );
   }
