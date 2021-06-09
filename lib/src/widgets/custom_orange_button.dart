@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 
 class CustomOrangeButton extends StatelessWidget {
   final String buttonText;
+  double buttonWidth;
+  double buttonHeight;
 
-  const CustomOrangeButton({required this.buttonText});
+  CustomOrangeButton({
+    required this.buttonText,
+    this.buttonWidth = 150,
+    this.buttonHeight = 50,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150,
-      height: 40,
+      width: buttonWidth,
+      height: buttonHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.orange,
