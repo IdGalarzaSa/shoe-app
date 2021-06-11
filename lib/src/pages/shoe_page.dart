@@ -6,6 +6,8 @@ class ShoePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Column(
         children: [
@@ -16,7 +18,7 @@ class ShoePage extends StatelessWidget {
               child: Column(
                 children: [
                   Hero(tag: "shoe", child: Material(child: ShoeSizePreview())),
-                  SizedBox(height: 20),
+                  SizedBox(height: height * 0.03),
                   ShoeDescription(
                     title: "Nike Air Max 720",
                     description:
