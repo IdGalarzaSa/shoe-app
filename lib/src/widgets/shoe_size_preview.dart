@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shoes_app/src/models/shoe_model.dart';
 import 'package:flutter_shoes_app/src/pages/shoe_description_page.dart';
+import 'package:provider/provider.dart';
 
 class ShoeSizePreview extends StatelessWidget {
   bool fullScreen;
@@ -53,6 +55,8 @@ class ShoeSizePreview extends StatelessWidget {
 class _ShoeWithShadow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final shoeModel = Provider.of<ShoeModel>(context);
+
     return Padding(
       padding: EdgeInsets.all(30),
       child: Stack(
@@ -62,7 +66,9 @@ class _ShoeWithShadow extends StatelessWidget {
             bottom: 20,
             right: 0,
           ),
-          Image.asset('assets/img/azul.png'),
+          Padding(
+              padding: EdgeInsets.all(70 - (shoeModel.size * 5)),
+              child: Image.asset(shoeModel.assetImage)),
         ],
       ),
     );
@@ -96,17 +102,17 @@ class _ShoesSize extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _ShoeSizeBox(shoeSize: 7, isSelected: false),
+          _ShoeSizeBox(shoeSize: 7),
           SizedBox(width: 8),
-          _ShoeSizeBox(shoeSize: 7.5, isSelected: false),
+          _ShoeSizeBox(shoeSize: 7.5),
           SizedBox(width: 8),
-          _ShoeSizeBox(shoeSize: 8, isSelected: false),
+          _ShoeSizeBox(shoeSize: 8),
           SizedBox(width: 8),
-          _ShoeSizeBox(shoeSize: 8.5, isSelected: false),
+          _ShoeSizeBox(shoeSize: 8.5),
           SizedBox(width: 8),
-          _ShoeSizeBox(shoeSize: 9, isSelected: true),
+          _ShoeSizeBox(shoeSize: 9),
           SizedBox(width: 8),
-          _ShoeSizeBox(shoeSize: 9.5, isSelected: false),
+          _ShoeSizeBox(shoeSize: 9.5),
         ],
       ),
     );
@@ -115,35 +121,43 @@ class _ShoesSize extends StatelessWidget {
 
 class _ShoeSizeBox extends StatelessWidget {
   final double shoeSize;
-  final bool isSelected;
 
-  _ShoeSizeBox({required this.shoeSize, required this.isSelected});
+  _ShoeSizeBox({required this.shoeSize});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 50,
-      padding: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: isSelected ? Color(0xffF1A23A) : Colors.white,
-        boxShadow: isSelected
-            ? [
-                BoxShadow(
-                  color: Color(0xffF1A23A),
-                  blurRadius: 10,
-                  offset: Offset(0, 5),
-                )
-              ]
-            : [BoxShadow(color: Colors.transparent)],
-      ),
-      child: Center(
-        child: Text(
-          '${this.shoeSize.toString().replaceAll(".0", "")}',
-          style: TextStyle(
-            color: isSelected ? Colors.white : Color(0xffF1A23A),
-            fontWeight: FontWeight.bold,
+    final shoeModel = Provider.of<ShoeModel>(context);
+    final sizeSelected = shoeModel.size;
+    final isSelected = shoeSize == sizeSelected ? true : false;
+
+    return GestureDetector(
+      onTap: () {
+        shoeModel.size = shoeSize;
+      },
+      child: Container(
+        width: 50,
+        height: 50,
+        padding: EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: isSelected ? Color(0xffF1A23A) : Colors.white,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: Color(0xffF1A23A),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  )
+                ]
+              : [BoxShadow(color: Colors.transparent)],
+        ),
+        child: Center(
+          child: Text(
+            '${this.shoeSize.toString().replaceAll(".0", "")}',
+            style: TextStyle(
+              color: isSelected ? Colors.white : Color(0xffF1A23A),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

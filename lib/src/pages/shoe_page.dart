@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shoes_app/src/helpers/notificationBar_helper.dart';
 import 'package:flutter_shoes_app/src/widgets/custom_widgets.dart';
 
 class ShoePage extends StatelessWidget {
@@ -6,6 +7,8 @@ class ShoePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    changeToDarkNavigationBar();
+
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(

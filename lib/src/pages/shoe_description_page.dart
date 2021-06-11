@@ -1,10 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shoes_app/src/helpers/notificationBar_helper.dart';
+import 'package:flutter_shoes_app/src/models/shoe_model.dart';
 import 'package:flutter_shoes_app/src/widgets/custom_widgets.dart';
+import 'package:provider/provider.dart';
 
 class ShoeDescriptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    changeToLightNavigationBar();
+
     return Scaffold(
       body: Column(
         children: [
@@ -113,16 +118,32 @@ class _ColorsAndMore extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
-                    child: _RoundedColor(color: Color(0xffC6D642), index: 4),
+                    child: _RoundedColor(
+                      color: Color(0xffC6D642),
+                      index: 4,
+                      assetColor: 'assets/img/verde.png',
+                    ),
                     left: 75),
                 Positioned(
-                    child: _RoundedColor(color: Color(0xffFFAD29), index: 3),
+                    child: _RoundedColor(
+                      color: Color(0xffFFAD29),
+                      index: 3,
+                      assetColor: 'assets/img/amarillo.png',
+                    ),
                     left: 50),
                 Positioned(
-                    child: _RoundedColor(color: Color(0xff2099f1), index: 2),
+                    child: _RoundedColor(
+                      color: Color(0xff2099f1),
+                      index: 2,
+                      assetColor: 'assets/img/azul.png',
+                    ),
                     left: 25),
                 Positioned(
-                  child: _RoundedColor(color: Color(0xff364D56), index: 1),
+                  child: _RoundedColor(
+                    color: Color(0xff364D56),
+                    index: 1,
+                    assetColor: 'assets/img/negro.png',
+                  ),
                 ),
               ],
             ),
@@ -143,21 +164,30 @@ class _ColorsAndMore extends StatelessWidget {
 
 class _RoundedColor extends StatelessWidget {
   final Color color;
+  final String assetColor;
   final int index;
 
-  _RoundedColor({required this.color, required this.index});
+  _RoundedColor(
+      {required this.color, required this.index, required this.assetColor});
 
   @override
   Widget build(BuildContext context) {
+    final shoeModel = Provider.of<ShoeModel>(context);
+
     return FadeInLeft(
       delay: Duration(milliseconds: index * 100),
       duration: Duration(milliseconds: 300),
-      child: Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          color: color,
+      child: GestureDetector(
+        onTap: () {
+          shoeModel.assetImage = assetColor;
+        },
+        child: Container(
+          height: 40,
+          width: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(40),
+            color: color,
+          ),
         ),
       ),
     );
